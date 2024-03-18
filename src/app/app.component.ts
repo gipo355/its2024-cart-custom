@@ -10,17 +10,12 @@ import { CartSourceService } from './services/cart-source.service';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  protected cartSourceService = new CartSourceService();
-  // items = CART;
-  items = this.cartSourceService.getCart();
-  // items = this.cartSourceService.items$;
+  items$ = this.cartSourceService.items$;
 
   vat = getVAT('IT');
 
   // DI: use cart source service in the code, request in constructor
-  constructor(cartSourceService: CartSourceService) {
-    this.cartSourceService = cartSourceService;
-  }
+  constructor(protected cartSourceService: CartSourceService) {}
   // or
   // protected cartSrv = inject(CartSourceService)
 
@@ -29,12 +24,6 @@ export class AppComponent {
   }
 
   changeQuantity(item: CartItem, newQuantity: number) {
-    const index = this.items.indexOf(item);
-    const tmp = structuredClone(this.items);
-    tmp[index].quantity = newQuantity;
-    this.items = tmp;
-    // BUG: doesn't work
-    // this.cartSourceService.setQuantity(item.id, newQuantity);
-    // this.items = this.cartSourceService.getCart();
+    this.cartSourceService.setQuantity(item.id, newQuantity);
   }
 }
