@@ -13,6 +13,7 @@ export class AppComponent {
   protected cartSourceService = new CartSourceService();
   // items = CART;
   items = this.cartSourceService.getCart();
+  // items = this.cartSourceService.items$;
 
   vat = getVAT('IT');
 
@@ -32,5 +33,8 @@ export class AppComponent {
     const tmp = structuredClone(this.items);
     tmp[index].quantity = newQuantity;
     this.items = tmp;
+    // BUG: doesn't work
+    // this.cartSourceService.setQuantity(item.id, newQuantity);
+    // this.items = this.cartSourceService.getCart();
   }
 }
